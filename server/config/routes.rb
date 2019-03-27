@@ -1,3 +1,21 @@
+# frozen_string_literal: true
+
+require_relative 'routes_api'
+
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  # Auth
+  scope :auth do
+    devise_for :users
+    use_doorkeeper
+  end
+
+  # Api
+  namespace :api, path: :api, as: :api do
+    extend RoutesApi
+  end
+
+  get '/home', to: 'homes#index'
+  root to: 'homes#index'
+
+  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 end
