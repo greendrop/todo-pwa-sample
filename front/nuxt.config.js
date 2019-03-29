@@ -1,5 +1,6 @@
 import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
 import pkg from './package'
+require('dotenv').config()
 
 export default {
   mode: 'universal',
@@ -32,26 +33,79 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['~/assets/style/app.styl'],
+  css: ['~/assets/style/vuetify.styl'],
 
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/vuetify'],
+  plugins: ['@/plugins/vuetify', '~/plugins/vee-validate'],
 
   /*
    ** Nuxt.js modules
    */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    '@nuxtjs/auth',
+    '@nuxtjs/dotenv',
+    '@nuxtjs/toast',
+    [
+      'nuxt-i18n',
+      {
+        locales: [
+          {
+            code: 'ja',
+            iso: 'ja',
+            file: 'ja.js'
+          }
+        ],
+        defaultLocale: 'ja',
+        lazy: true,
+        langDir: 'locales/'
+      }
+    ]
   ],
   /*
    ** Axios module configuration
    */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+  },
+
+  /*
+   ** auth configuration
+   */
+  auth: {
+    redirect: {
+      login: '/users/sign_in',
+      logout: '/',
+      callback: '/users/auth/callback',
+      home: '/'
+    },
+    strategies: {
+      doorkeeper: {
+        _scheme: '~/lib/auth-module/lib/schemes/oauth2-doorkeeper.js',
+        _name: 'doorkeeper',
+        authorization_endpoint: `${
+          process.env.EXTERNAL_API_BASE_URL
+        }/auth/oauth/authorize`,
+        access_token_endpoint: `${
+          process.env.EXTERNAL_API_BASE_URL
+        }/auth/oauth/token`,
+        userinfo_endpoint: `${process.env.EXTERNAL_API_BASE_URL}/api/v1/me`,
+        scope: [],
+        client_id: process.env.DOORKEEPER_CLIENT_ID,
+        client_secret: process.env.DOORKEEPER_CLIENT_SECRET
+      }
+    }
+  },
+
+  /*
+   ** toast configuration
+   */
+  toast: {
+    position: 'top-right',
+    duration: 5000
   },
 
   /*

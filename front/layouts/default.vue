@@ -19,46 +19,37 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title v-text="item.title" />
+            <v-list-tile-title v-text="$t(item.title)" />
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile v-if="!signedIn" @click="signIn()">
+          <v-list-tile-action>
+            <v-icon>fas fa-sign-in-alt fa-lg</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title v-text="$t('common.signIn')" />
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile v-if="signedIn" @click="signOut()">
+          <v-list-tile-action>
+            <v-icon>fas fa-sign-out-alt fa-lg</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title v-text="$t('common.signOut')" />
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar :clipped-left="clipped" fixed app>
       <v-toolbar-side-icon @click="drawer = !drawer" />
-      <v-btn icon @click.stop="miniVariant = !miniVariant">
-        <v-icon>{{ `chevron_${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="clipped = !clipped">
-        <v-icon>web</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="fixed = !fixed">
-        <v-icon>remove</v-icon>
-      </v-btn>
       <v-toolbar-title v-text="title" />
-      <v-spacer />
-      <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <v-icon>menu</v-icon>
-      </v-btn>
     </v-toolbar>
     <v-content>
       <v-container>
         <nuxt />
       </v-container>
     </v-content>
-    <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
-      <v-list>
-        <v-list-tile @click.native="right = !right">
-          <v-list-tile-action>
-            <v-icon light>compare_arrows</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
-    <v-footer :fixed="fixed" app>
-      <span>&copy; 2019</span>
-    </v-footer>
+    <v-footer :fixed="fixed" app />
   </v-app>
 </template>
 
@@ -66,25 +57,42 @@
 export default {
   data() {
     return {
-      clipped: false,
-      drawer: false,
+      clipped: true,
+      drawer: null,
       fixed: false,
       items: [
         {
-          icon: 'apps',
-          title: 'Welcome',
+          icon: 'fas fa-home fa-lg',
+          title: 'common.home',
           to: '/'
         },
         {
-          icon: 'bubble_chart',
-          title: 'Inspire',
-          to: '/inspire'
+          icon: 'fas fa-list fa-lg',
+          title: 'models.task',
+          to: '/tasks'
         }
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'Todo PWA Sample'
+    }
+  },
+  computed: {
+    signedIn() {
+      return this.$auth.loggedIn
+    }
+  },
+  methods: {
+    signIn() {
+      this.$auth.loginWith('doorkeeper').then(() => {
+        this.$toast.success(this.$i18n.t('messages.signedIn'))
+      })
+    },
+    signOut() {
+      this.$auth.logout().then(() => {
+        this.$toast.success(this.$i18n.t('messages.signedOut'))
+      })
     }
   }
 }

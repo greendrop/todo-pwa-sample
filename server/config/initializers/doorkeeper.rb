@@ -28,6 +28,9 @@ Doorkeeper.configure do
   #     redirect_to sign_in_url
   #   end
   # end
+  admin_authenticator do
+    true
+  end
 
   # If you are planning to use Doorkeeper in Rails 5 API-only application, then you might
   # want to use API mode that will skip all the views management and change the way how
@@ -220,6 +223,9 @@ Doorkeeper.configure do
   # skip_authorization do |resource_owner, client|
   #   client.superapp? or resource_owner.admin?
   # end
+  skip_authorization do
+    true
+  end
 
   # WWW-Authenticate Realm (default "Doorkeeper").
   #
