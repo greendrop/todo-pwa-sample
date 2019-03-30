@@ -137,5 +137,15 @@ export default {
         })
       }
     }
+  },
+  manifest: {
+    name: pkg.name,
+    short_name: pkg.name,
+    author: pkg.author,
+    description: pkg.description,
+    lang: 'ja'
+  },
+  workbox: {
+    dev: true
   }
 }
