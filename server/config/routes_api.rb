@@ -15,6 +15,9 @@ module RoutesApi
     namespace :v1 do
       # サインインユーザ
       get '/me' => 'users#me'
+
+      # タスク
+      resources :tasks, except: %i[new edit]
     end
   end
 end

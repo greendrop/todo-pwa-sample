@@ -16,15 +16,15 @@
           exact
         >
           <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon small>{{ item.icon }}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title v-text="$t(item.title)" />
+            <v-list-tile-title v-text="item.title" />
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile v-if="!signedIn" @click="signIn()">
           <v-list-tile-action>
-            <v-icon>fas fa-sign-in-alt fa-lg</v-icon>
+            <v-icon small>fas fa-sign-in-alt</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title v-text="$t('common.signIn')" />
@@ -32,7 +32,7 @@
         </v-list-tile>
         <v-list-tile v-if="signedIn" @click="signOut()">
           <v-list-tile-action>
-            <v-icon>fas fa-sign-out-alt fa-lg</v-icon>
+            <v-icon small>fas fa-sign-out-alt</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title v-text="$t('common.signOut')" />
@@ -62,13 +62,13 @@ export default {
       fixed: false,
       items: [
         {
-          icon: 'fas fa-home fa-lg',
-          title: 'common.home',
+          icon: 'fas fa-home',
+          title: this.$i18n.t('common.home'),
           to: '/'
         },
         {
-          icon: 'fas fa-list fa-lg',
-          title: 'models.task',
+          icon: 'fas fa-list',
+          title: this.$i18n.t('models.task'),
           to: '/tasks'
         }
       ],

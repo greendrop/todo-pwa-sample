@@ -38,7 +38,11 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/vuetify', '~/plugins/vee-validate'],
+  plugins: [
+    '@/plugins/vuetify',
+    '~/plugins/vee-validate',
+    '~/plugins/vue-filter'
+  ],
 
   /*
    ** Nuxt.js modules

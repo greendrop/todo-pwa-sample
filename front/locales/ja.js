@@ -1,9 +1,9 @@
 export default {
   common: {
-    listTitle: '{model}一覧',
-    showTitle: '{model}詳細',
-    newTitle: '{model}作成',
-    editTitle: '{model}編集',
+    listModel: '{model}一覧',
+    showModel: '{model}詳細',
+    newModel: '{model}作成',
+    editModel: '{model}編集',
     list: '一覧',
     show: '詳細',
     new: '作成',
@@ -11,6 +11,7 @@ export default {
     edit: '編集',
     update: '更新',
     destroy: '削除',
+    clear: 'クリア',
     search: '検索',
     home: 'ホーム',
     signIn: 'ログイン',
@@ -22,11 +23,21 @@ export default {
     updateModel: '{model}を更新しました。',
     destroyModel: '{model}を削除しました。',
     signedIn: 'ログインしました。',
-    signedOut: 'ログアウトしました。'
+    signedOut: 'ログアウトしました。',
+    errorOccurred: 'エラーが発生しました。'
   },
   models: {
     task: 'タスク',
-    attributes: {}
+    attributes: {
+      task: {
+        id: 'ID',
+        title: 'タイトル',
+        description: '詳細',
+        done: '完了',
+        createdAt: '登録日時',
+        updatedAt: '更新日時'
+      }
+    }
   },
   layouts: {},
   pages: {},
