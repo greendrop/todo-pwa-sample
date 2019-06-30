@@ -14,7 +14,7 @@ RUN cd /usr/local/bin \
 RUN set -ex \
   && apt-get update \
   && apt-get upgrade -y \
-  && apt-get install -y --no-install-recommends locales task-japanese gosu sudo vim less zsh \
+  && apt-get install -y --no-install-recommends locales task-japanese gosu sudo vim less zsh graphviz \
   && rm -rf /var/lib/apt/lists/* \
   && echo 'ja_JP.UTF-8 UTF-8' > /etc/locale.gen \
   && locale-gen \
