@@ -17,5 +17,8 @@ Rails.application.routes.draw do
   get '/home', to: 'homes#index'
   root to: 'homes#index'
 
+  # Docs
+  get '/docs/*path', to: 'docs#show' if Rails.env.development?
+
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 end

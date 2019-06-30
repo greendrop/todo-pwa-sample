@@ -35,6 +35,8 @@ $ cp config/database.yml.example config/database.yml
 $ bundle install
 $ yarn install
 $ rake db:create
+$ rake db:migrate
+$ exit
 $ docker-compose run --rm front bash
 $ cp .env.example .env
 $ yarn install
