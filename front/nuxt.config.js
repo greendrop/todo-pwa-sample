@@ -53,6 +53,7 @@ export default {
     '@nuxtjs/auth',
     '@nuxtjs/dotenv',
     '@nuxtjs/toast',
+    'nuxt-logger',
     [
       'nuxt-i18n',
       {
@@ -77,7 +78,14 @@ export default {
   },
 
   /*
-   ** auth configuration
+   ** Logger configuration
+   */
+  logger: {
+    logLevel: process.env.NODE_ENV === 'production' ? 'error' : 'debug'
+  },
+
+  /*
+   ** Auth configuration
    */
   auth: {
     redirect: {

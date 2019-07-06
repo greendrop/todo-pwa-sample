@@ -10,17 +10,18 @@ export const state = () => ({
     totalCount: 0
   },
   task: null,
+  got: false,
+  created: false,
+  updated: false,
+  deleted: false,
   errorStatus: null,
-  errorData: null,
-  createCompleted: false,
-  updateCompleted: false,
-  deleteCompleted: false
+  errorData: null
 })
 
 export const actions = {
   async getTasks({ commit }, { accessToken, params = {} }) {
     const url = `${apiUrl.getApiBaseUrl()}/api/v1/tasks`
-    const response = await this.$axios
+    await this.$axios
       .get(url, {
         headers: { Authorization: accessToken },
         params: changeCaseObject.snakeCase(params),
@@ -29,55 +30,49 @@ export const actions = {
         }
       })
       .then(response => {
-        return {
-          tasks: changeCaseObject.camelCase(response.data),
-          tasksMeta: {
-            totalCount: Number(response.headers['total-count']),
-            perPage: Number(params.perPage) || 25,
-            currentPage: Number(params.page) || 1
-          },
-          errorStatus: null,
-          errorData: null
+        const tasks = changeCaseObject.camelCase(response.data)
+        const tasksMeta = {
+          totalCount: Number(response.headers['total-count']),
+          perPage: Number(params.perPage) || 25,
+          currentPage: Number(params.page) || 1
         }
+        commit('setTasks', tasks)
+        commit('setTasksMeta', tasksMeta)
+        commit('setGot', true)
+        commit('setErrorStatus', null)
+        commit('setErrorData', null)
       })
       .catch(error => {
-        return {
-          tasks: [],
-          tasksMeta: {
-            totalCount: 0,
-            perPage: 0,
-            currentPage: 0
-          },
-          errorStatus: error.response.status,
-          errorDatr: changeCaseObject.camelCase(error.response.data)
+        const tasks = []
+        const tasksMeta = {
+          totalCount: 0,
+          perPage: 0,
+          currentPage: 0
         }
+        commit('setTasks', tasks)
+        commit('setTasksMeta', tasksMeta)
+        commit('setGot', false)
+        commit('setErrorStatus', error.response.status)
+        commit('setErrorData', error.response.data)
       })
-    commit('setTasks', response.tasks)
-    commit('setTasksMeta', response.tasksMeta)
-    commit('setErrorStatus', response.errorStatus)
-    commit('setErrorData', response.errorData)
   },
   async getTaskById({ commit }, { accessToken, id }) {
     const url = `${apiUrl.getApiBaseUrl()}/api/v1/tasks/${id}`
-    const response = await this.$axios
+    await this.$axios
       .get(url, { headers: { Authorization: accessToken } })
       .then(response => {
-        return {
-          task: changeCaseObject.camelCase(response.data),
-          errorStatus: null,
-          errorData: null
-        }
+        const task = changeCaseObject.camelCase(response.data)
+        commit('setTask', task)
+        commit('setGot', true)
+        commit('setErrorStatus', null)
+        commit('setErrorData', null)
       })
       .catch(error => {
-        return {
-          task: null,
-          errorStatus: error.response.status,
-          errorDatr: changeCaseObject.camelCase(error.response.data)
-        }
+        commit('setTask', [])
+        commit('setGot', false)
+        commit('setErrorStatus', error.response.status)
+        commit('setErrorData', error.response.data)
       })
-    commit('setTask', response.task)
-    commit('setErrorStatus', response.errorStatus)
-    commit('setErrorData', response.errorData)
   },
   async createTask({ commit }, { accessToken, task }) {
     const url = `${apiUrl.getApiBaseUrl()}/api/v1/tasks`
@@ -87,12 +82,12 @@ export const actions = {
       .then(response => {
         const task = changeCaseObject.camelCase(response.data)
         commit('setTask', task)
-        commit('setCreateCompleted', true)
+        commit('setCreated', true)
         commit('setErrorStatus', null)
         commit('setErrorData', null)
       })
       .catch(error => {
-        commit('setCreateCompleted', false)
+        commit('setCompleted', false)
         commit('setErrorStatus', error.response.errorStatus)
         commit('setErrorData', error.response.errorData)
       })
@@ -107,12 +102,12 @@ export const actions = {
     await this.$axios
       .put(url, params, { headers: { Authorization: accessToken } })
       .then(() => {
-        commit('setUpdateCompleted', true)
+        commit('setUpdated', true)
         commit('setErrorStatus', null)
         commit('setErrorData', null)
       })
       .catch(error => {
-        commit('setUpdateCompleted', false)
+        commit('setUpdated', false)
         commit('setErrorStatus', error.response.errorStatus)
         commit('setErrorData', error.response.errorData)
       })
@@ -122,12 +117,12 @@ export const actions = {
     await this.$axios
       .delete(url, { headers: { Authorization: accessToken } })
       .then(() => {
-        commit('setDeleteCompleted', true)
+        commit('setDeleted', true)
         commit('setErrorStatus', null)
         commit('setErrorData', null)
       })
       .catch(error => {
-        commit('setDeleteCompleted', false)
+        commit('setDeleted', false)
         commit('setErrorStatus', error.response.errorStatus)
         commit('setErrorData', error.response.errorData)
       })
@@ -144,20 +139,23 @@ export const mutations = {
   setTask(state, data) {
     state.task = data
   },
+  setGot(state, data) {
+    state.got = data
+  },
+  setCreated(state, data) {
+    state.created = data
+  },
+  setUpdated(state, data) {
+    state.updated = data
+  },
+  setDeleted(state, data) {
+    state.deleted = data
+  },
   setErrorStatus(state, data) {
     state.errorStatus = data
   },
   setErrorData(state, data) {
     state.errorData = data
-  },
-  setCreateCompleted(state, data) {
-    state.createCompleted = data
-  },
-  setUpdateCompleted(state, data) {
-    state.updateCompleted = data
-  },
-  setDeleteCompleted(state, data) {
-    state.deleteCompleted = data
   }
 }
 
@@ -171,19 +169,22 @@ export const getters = {
   task(state) {
     return state.task
   },
+  got(state) {
+    return state.got
+  },
+  created(state) {
+    return state.created
+  },
+  updated(state) {
+    return state.updated
+  },
+  deleted(state) {
+    return state.deleted
+  },
   errorStatus(state) {
     return state.errorStatus
   },
   errorData(state) {
     return state.errorData
-  },
-  createCompleted(state) {
-    return state.createCompleted
-  },
-  updateCompleted(state) {
-    return state.updateCompleted
-  },
-  deleteCompleted(state) {
-    return state.deleteCompleted
   }
 }

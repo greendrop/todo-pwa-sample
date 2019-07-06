@@ -2,7 +2,7 @@
   <v-layout row wrap>
     <v-flex xs12 sm12 md12>
       <v-text-field
-        v-model="localTitle"
+        v-model="localTask.title"
         v-validate="'required|max:255'"
         :counter="255"
         :label="$t('models.attributes.task.title')"
@@ -12,14 +12,14 @@
         required
       />
       <v-textarea
-        v-model="localDescription"
+        v-model="localTask.description"
         :label="$t('models.attributes.task.description')"
         :error-messages="errors.collect('description')"
         :data-vv-as="$t('models.attributes.task.description')"
         :data-vv-name="'description'"
       />
       <v-switch
-        v-model="localDone"
+        v-model="localTask.done"
         :label="$t('models.attributes.task.done')"
         :error-messages="errors.collect('done')"
         :data-vv-as="$t('models.attributes.task.done')"
@@ -30,46 +30,40 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   props: {
-    title: {
-      type: String,
-      required: true
-    },
-    description: {
-      type: String,
-      required: true
-    },
-    done: {
-      type: Boolean,
+    task: {
+      type: Object,
       required: true
     }
   },
-  computed: {
-    localTitle: {
-      get: function() {
-        return this.title
-      },
-      set: function(value) {
-        this.$emit('update:title', value)
-      }
-    },
-    localDescription: {
-      get: function() {
-        return this.description
-      },
-      set: function(value) {
-        this.$emit('update:description', value)
-      }
-    },
-    localDone: {
-      get: function() {
-        return this.done
-      },
-      set: function(value) {
-        this.$emit('update:done', value)
-      }
+  data() {
+    return {
+      localTask: {}
     }
+  },
+  watch: {
+    task: {
+      handler(val, oldVal) {
+        this.$log.debug(val)
+        this.$log.debug(oldVal)
+        this.$log.debug(_.isEqual(val, oldVal))
+        if (!_.isEqual(val, oldVal)) {
+          this.localTask = _.cloneDeep(val)
+        }
+      }
+    },
+    localTask: {
+      handler(val, oldVal) {
+        this.$emit('update:task', val)
+      },
+      deep: true
+    }
+  },
+  mounted() {
+    this.localTask = this.task
   }
 }
 </script>

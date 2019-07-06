@@ -6076,6 +6076,10 @@ nuxt-i18n@^5.8.5:
     vue-i18n "^8.8.2"
     vue-i18n-extensions "^0.2.0"
 
+nuxt-logger@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/nuxt-logger/-/nuxt-logger-0.2.0.tgz#60aa0e67918267387b1219c582df563c21c5839e"
+
 nuxt@^2.4.0:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/nuxt/-/nuxt-2.5.1.tgz#57e03386004f62e499d5cdc18fd380d129cb017f"
