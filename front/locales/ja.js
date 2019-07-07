@@ -1,5 +1,5 @@
 export default {
-  common: {
+  labels: {
     listModel: '{model}一覧',
     showModel: '{model}詳細',
     newModel: '{model}作成',
@@ -38,8 +38,5 @@ export default {
         updatedAt: '更新日時'
       }
     }
-  },
-  layouts: {},
-  pages: {},
-  components: {}
+  }
 }

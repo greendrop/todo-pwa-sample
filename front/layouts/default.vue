@@ -22,22 +22,24 @@
             <v-list-tile-title v-text="item.title" />
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile v-if="!signedIn" @click="signIn()">
-          <v-list-tile-action>
-            <v-icon small>fas fa-sign-in-alt</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title v-text="$t('common.signIn')" />
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile v-if="signedIn" @click="signOut()">
-          <v-list-tile-action>
-            <v-icon small>fas fa-sign-out-alt</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title v-text="$t('common.signOut')" />
-          </v-list-tile-content>
-        </v-list-tile>
+        <no-ssr>
+          <v-list-tile v-if="!signedIn" @click="signIn()">
+            <v-list-tile-action>
+              <v-icon small>fas fa-sign-in-alt</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title v-text="$t('labels.signIn')" />
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile v-if="signedIn" @click="signOut()">
+            <v-list-tile-action>
+              <v-icon small>fas fa-sign-out-alt</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title v-text="$t('labels.signOut')" />
+            </v-list-tile-content>
+          </v-list-tile>
+        </no-ssr>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar :clipped-left="clipped" fixed app>
@@ -63,7 +65,7 @@ export default {
       items: [
         {
           icon: 'fas fa-home',
-          title: this.$i18n.t('common.home'),
+          title: this.$i18n.t('labels.home'),
           to: '/'
         },
         {

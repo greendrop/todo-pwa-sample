@@ -9,13 +9,13 @@
                 <v-icon small class="mr-1">
                   fas fa-pencil-alt
                 </v-icon>
-                {{ $t('common.edit') }}
+                {{ $t('labels.edit') }}
               </v-btn>
               <v-btn color="error" @click="deleteTask(task)">
                 <v-icon small class="mr-1">
                   fas fa-trash-alt
                 </v-icon>
-                {{ $t('common.destroy') }}
+                {{ $t('labels.destroy') }}
               </v-btn>
             </div>
           </v-flex>

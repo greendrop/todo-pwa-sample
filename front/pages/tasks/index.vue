@@ -12,7 +12,7 @@
       <v-layout row wrap>
         <v-flex xs12 sm12 md12 mb-1>
           <div class="headline">
-            {{ $t('common.listModel', { model: $t('models.task') }) }}
+            {{ $t('labels.listModel', { model: $t('models.task') }) }}
           </div>
         </v-flex>
       </v-layout>
@@ -24,7 +24,7 @@
           <div class="text-xs-right">
             <v-btn to="/tasks/new">
               <v-icon small class="mr-1">fas fa-plus</v-icon>
-              {{ $t('common.new') }}
+              {{ $t('labels.new') }}
             </v-btn>
           </div>
         </v-flex>
@@ -47,13 +47,13 @@ export default {
     breadcrumbItems() {
       return [
         {
-          text: this.$i18n.t('common.home'),
+          text: this.$i18n.t('labels.home'),
           to: '/',
           exact: true,
           disabled: false
         },
         {
-          text: this.$i18n.t('common.listModel', {
+          text: this.$i18n.t('labels.listModel', {
             model: this.$i18n.t('models.task')
           }),
           to: '/tasks',

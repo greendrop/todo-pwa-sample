@@ -11,7 +11,7 @@
                 <v-flex xs12 sm12 md12>
                   <v-btn color="primary" @click="submit">
                     <v-icon small class="mr-1">fas fa-plus</v-icon>
-                    {{ $t('common.create') }}
+                    {{ $t('labels.create') }}
                   </v-btn>
                 </v-flex>
               </v-layout>

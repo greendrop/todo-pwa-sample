@@ -12,7 +12,7 @@
       <v-layout row wrap>
         <v-flex xs12 sm12 md12 mb-3>
           <div class="headline">
-            {{ $t('common.editModel', { model: $t('models.task') }) }}
+            {{ $t('labels.editModel', { model: $t('models.task') }) }}
           </div>
         </v-flex>
       </v-layout>
@@ -44,13 +44,13 @@ export default {
       const id = this.$route.params.id
       return [
         {
-          text: this.$i18n.t('common.home'),
+          text: this.$i18n.t('labels.home'),
           to: '/',
           exact: true,
           disabled: false
         },
         {
-          text: this.$i18n.t('common.listModel', {
+          text: this.$i18n.t('labels.listModel', {
             model: this.$i18n.t('models.task')
           }),
           to: '/tasks',
@@ -58,7 +58,7 @@ export default {
           disabled: false
         },
         {
-          text: this.$i18n.t('common.showModel', {
+          text: this.$i18n.t('labels.showModel', {
             model: this.$i18n.t('models.task')
           }),
           to: `/tasks/${id}`,
@@ -66,7 +66,7 @@ export default {
           disabled: false
         },
         {
-          text: this.$i18n.t('common.editModel', {
+          text: this.$i18n.t('labels.editModel', {
             model: this.$i18n.t('models.task')
           }),
           to: `/tasks/${id}/edit`,

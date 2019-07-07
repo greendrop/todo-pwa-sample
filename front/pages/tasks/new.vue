@@ -12,7 +12,7 @@
       <v-layout row wrap>
         <v-flex xs12 sm12 md12 mb-1>
           <div class="headline">
-            {{ $t('common.newModel', { model: $t('models.task') }) }}
+            {{ $t('labels.newModel', { model: $t('models.task') }) }}
           </div>
         </v-flex>
       </v-layout>
@@ -34,13 +34,13 @@ export default {
     breadcrumbItems() {
       return [
         {
-          text: this.$i18n.t('common.home'),
+          text: this.$i18n.t('labels.home'),
           to: '/',
           exact: true,
           disabled: false
         },
         {
-          text: this.$i18n.t('common.listModel', {
+          text: this.$i18n.t('labels.listModel', {
             model: this.$i18n.t('models.task')
           }),
           to: '/tasks',
@@ -48,7 +48,7 @@ export default {
           disabled: false
         },
         {
-          text: this.$i18n.t('common.newModel', {
+          text: this.$i18n.t('labels.newModel', {
             model: this.$i18n.t('models.task')
           }),
           to: '/tasks/new',
