@@ -7,40 +7,7 @@
       fixed
       app
     >
-      <v-list>
-        <v-list-tile
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-tile-action>
-            <v-icon small>{{ item.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title v-text="item.title" />
-          </v-list-tile-content>
-        </v-list-tile>
-        <no-ssr>
-          <v-list-tile v-if="!signedIn" @click="signIn()">
-            <v-list-tile-action>
-              <v-icon small>fas fa-sign-in-alt</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title v-text="$t('labels.signIn')" />
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile v-if="signedIn" @click="signOut()">
-            <v-list-tile-action>
-              <v-icon small>fas fa-sign-out-alt</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title v-text="$t('labels.signOut')" />
-            </v-list-tile-content>
-          </v-list-tile>
-        </no-ssr>
-      </v-list>
+      <NavigationList />
     </v-navigation-drawer>
     <v-toolbar :clipped-left="clipped" fixed app>
       <v-toolbar-side-icon @click="drawer = !drawer" />
@@ -56,45 +23,21 @@
 </template>
 
 <script>
+import NavigationList from '~/components/organisms/NavigationList.vue'
+
 export default {
+  components: {
+    NavigationList
+  },
   data() {
     return {
       clipped: true,
       drawer: null,
       fixed: false,
-      items: [
-        {
-          icon: 'fas fa-home',
-          title: this.$i18n.t('labels.home'),
-          to: '/'
-        },
-        {
-          icon: 'fas fa-list',
-          title: this.$i18n.t('models.task'),
-          to: '/tasks'
-        }
-      ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
       title: 'Todo PWA Sample'
-    }
-  },
-  computed: {
-    signedIn() {
-      return this.$auth.loggedIn
-    }
-  },
-  methods: {
-    signIn() {
-      this.$auth.loginWith('doorkeeper').then(() => {
-        this.$toast.success(this.$i18n.t('messages.signedIn'))
-      })
-    },
-    signOut() {
-      this.$auth.logout().then(() => {
-        this.$toast.success(this.$i18n.t('messages.signedOut'))
-      })
     }
   }
 }

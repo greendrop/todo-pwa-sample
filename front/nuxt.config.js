@@ -54,6 +54,7 @@ export default {
     '@nuxtjs/dotenv',
     '@nuxtjs/toast',
     'nuxt-logger',
+    'cookie-universal-nuxt',
     [
       'nuxt-i18n',
       {

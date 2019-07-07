@@ -39,7 +39,7 @@
 import TaskList from '~/components/organisms/TaskList.vue'
 
 export default {
-  middleware: 'auth',
+  middleware: 'authenticated',
   components: {
     TaskList
   },

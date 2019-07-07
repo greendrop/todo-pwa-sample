@@ -5,9 +5,7 @@
 <script>
 export default {
   mounted() {
-    this.$auth.loginWith('doorkeeper').then(() => {
-      this.$toast.success(this.$i18n.t('messages.signedIn'))
-    })
+    this.$auth.loginWith(process.env.AUTH_STRATEGY_NAME)
   }
 }
 </script>

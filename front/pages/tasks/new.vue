@@ -26,7 +26,7 @@
 import TaskNew from '~/components/organisms/TaskNew.vue'
 
 export default {
-  middleware: 'auth',
+  middleware: 'authenticated',
   components: {
     TaskNew
   },
