@@ -11,6 +11,7 @@
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lintfix": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
+    "lint:pug-vue": "pug-lint-vue components pages layouts",
     "precommit": "npm run lint",
     "test": "jest"
   },
@@ -54,6 +55,10 @@
     "jest": "^24.1.0",
     "nodemon": "^1.18.9",
     "prettier": "^1.16.4",
+    "pug": "^2.0.4",
+    "pug-lint": "^2.6.0",
+    "pug-lint-vue": "^0.3.0",
+    "pug-plain-loader": "^1.0.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vue-jest": "^3.0.3"

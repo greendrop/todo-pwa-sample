@@ -1,26 +1,18 @@
-<template>
-  <v-flex xs12 sm12 md12>
-    <v-card>
-      <v-card-title>
-        <v-layout row wrap>
-          <v-flex xs12 sm12 md12>
-            <form @submit.prevent="submit">
-              <TaskForm :task.sync="localTask" />
+<template lang="pug">
+  v-flex(xs12 sm12 md12)
+    v-card
+      v-card-title
+        v-layout(row wrap)
+          v-flex(xs12 sm12 md12)
+            form(@submit.prevent="submit")
+              task-form(:task.sync="localTask")
 
-              <v-layout row wrap>
-                <v-flex xs12 sm12 md12>
-                  <v-btn color="primary" @click="submit">
-                    <v-icon small class="mr-1">fas fa-pencil-alt</v-icon>
-                    {{ $t('common.update') }}
-                  </v-btn>
-                </v-flex>
-              </v-layout>
-            </form>
-          </v-flex>
-        </v-layout>
-      </v-card-title>
-    </v-card>
-  </v-flex>
+              v-layout(row wrap)
+                v-flex(xs12 sm12 md12)
+                  v-btn(color="primary" @click="submit")
+                    v-icon.mr-1(small)
+                      | fas fa-pencil-alt
+                    | {{ $t('common.update') }}
 </template>
 
 <script>

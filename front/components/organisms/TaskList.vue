@@ -1,38 +1,28 @@
-<template>
-  <v-flex xs12 sm12 md12>
-    <v-data-table
+<template lang="pug">
+  v-flex(xs12 sm12 md12)
+    v-data-table(
       :headers="taskHeaders"
       :items="tasks"
       :pagination.sync="pagination"
       :total-items="taskTotalCount"
-      :loading="taskLoading"
-    >
-      <template slot="items" slot-scope="props">
-        <td>{{ props.item.id }}</td>
-        <td>{{ props.item.title }}</td>
-        <td>{{ props.item.description | truncate }}</td>
-        <td>{{ props.item.done }}</td>
-        <td>{{ props.item.createdAt | datetime }}</td>
-        <td>{{ props.item.updatedAt | datetime }}</td>
-        <td>
-          <v-icon small class="mr-1" @click="showTask(props.item)">
-            fas fa-chevron-down
-          </v-icon>
-          <v-icon small class="mr-1" @click="editTask(props.item)">
-            fas fa-pencil-alt
-          </v-icon>
-          <v-icon
+      :loading="taskLoading")
+      template(slot="items" slot-scope="props")
+        td {{ props.item.id }}
+        td {{ props.item.title }}
+        td {{ props.item.description | truncate }}
+        td {{ props.item.done }}
+        td {{ props.item.createdAt | datetime }}
+        td {{ props.item.updatedAt | datetime }}
+        td
+          v-icon.mr-1(small @click="showTask(props.item)")
+            | fas fa-chevron-down
+          v-icon.mr-1(small @click="editTask(props.item)")
+            | fas fa-pencil-alt
+          v-icon.mr-1(
             small
-            class="mr-1"
             color="error"
-            @click="deleteTask(props.item)"
-          >
-            fas fa-trash-alt
-          </v-icon>
-        </td>
-      </template>
-    </v-data-table>
-  </v-flex>
+            @click="deleteTask(props.item)")
+            | fas fa-trash-alt
 </template>
 
 <script>

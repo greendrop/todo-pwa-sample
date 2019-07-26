@@ -1,26 +1,18 @@
-<template>
-  <v-flex xs12 sm12 md12>
-    <v-card>
-      <v-card-title>
-        <v-layout row wrap>
-          <v-flex xs12 sm12 md12>
-            <form @submit.prevent="submit">
-              <TaskForm :task.sync="task" />
+<template lang="pug">
+  v-flex(xs12 sm12 md12)
+    v-card
+      v-card-title
+        v-layout(row wrap)
+          v-flex(xs12 sm12 md12)
+            form(@submit.prevent="submit")
+              task-form(:task.sync="task")
 
-              <v-layout row wrap>
-                <v-flex xs12 sm12 md12>
-                  <v-btn color="primary" @click="submit">
-                    <v-icon small class="mr-1">fas fa-plus</v-icon>
-                    {{ $t('labels.create') }}
-                  </v-btn>
-                </v-flex>
-              </v-layout>
-            </form>
-          </v-flex>
-        </v-layout>
-      </v-card-title>
-    </v-card>
-  </v-flex>
+              v-layout(row wrap)
+                v-flex(xs12 sm12 md12)
+                  v-btn(color="primary" @click="submit")
+                    v-icon.mr-1(small)
+                      | fas fa-plus
+                    | {{ $t('labels.create') }}
 </template>
 
 <script>

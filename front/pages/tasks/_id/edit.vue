@@ -1,25 +1,17 @@
-<template>
-  <v-layout row wrap>
-    <v-flex xs12 sm12 md12>
-      <v-layout row wrap>
-        <v-flex xs12 sm12 md12 mb-1>
-          <v-breadcrumbs :items="breadcrumbItems" />
-        </v-flex>
-      </v-layout>
-    </v-flex>
+<template lang="pug">
+  v-layout(row wrap)
+    v-flex(xs12 sm12 md12)
+      v-layout(row wrap)
+        v-flex(xs12 sm12 md12 mb-1)
+          v-breadcrumbs(:items="breadcrumbItems")
 
-    <v-flex xs12 sm12 md12>
-      <v-layout row wrap>
-        <v-flex xs12 sm12 md12 mb-3>
-          <div class="headline">
-            {{ $t('labels.editModel', { model: $t('models.task') }) }}
-          </div>
-        </v-flex>
-      </v-layout>
-    </v-flex>
+    v-flex(xs12 sm12 md12)
+      v-layout(row wrap)
+        v-flex(xs12 sm12 md12 mb-3)
+          .headline
+            | {{ $t('labels.editModel', { model: $t('models.task') }) }}
 
-    <TaskEdit :task.sync="task" />
-  </v-layout>
+    task-edit(:task.sync="task")
 </template>
 
 <script>

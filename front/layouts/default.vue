@@ -1,25 +1,26 @@
-<template>
-  <v-app dark>
-    <v-navigation-drawer
+<template lang="pug">
+  v-app(dark)
+    v-navigation-drawer(
       v-model="drawer"
       :mini-variant="miniVariant"
       :clipped="clipped"
       fixed
-      app
-    >
-      <NavigationList />
-    </v-navigation-drawer>
-    <v-toolbar :clipped-left="clipped" fixed app>
-      <v-toolbar-side-icon @click="drawer = !drawer" />
-      <v-toolbar-title v-text="title" />
-    </v-toolbar>
-    <v-content>
-      <v-container>
-        <nuxt />
-      </v-container>
-    </v-content>
-    <v-footer :fixed="fixed" app />
-  </v-app>
+      app)
+
+      navigation-list
+
+    v-toolbar(
+      :clipped-left="clipped"
+      fixed
+      app)
+
+      v-toolbar-side-icon(@click="drawer = !drawer")
+      v-toolbar-title(v-text="title")
+
+    v-content
+      v-container
+        nuxt
+    v-footer(:fixed="fixed" app)
 </template>
 
 <script>

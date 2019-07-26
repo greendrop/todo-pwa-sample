@@ -1,32 +1,24 @@
-<template>
-  <v-list>
-    <v-list-tile v-for="(item, i) in items" :key="i" :to="item.to" router exact>
-      <v-list-tile-action>
-        <v-icon small>{{ item.icon }}</v-icon>
-      </v-list-tile-action>
-      <v-list-tile-content>
-        <v-list-tile-title v-text="item.title" />
-      </v-list-tile-content>
-    </v-list-tile>
-    <no-ssr>
-      <v-list-tile v-if="!signedIn" @click="signIn()">
-        <v-list-tile-action>
-          <v-icon small>fas fa-sign-in-alt</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title v-text="$t('labels.signIn')" />
-        </v-list-tile-content>
-      </v-list-tile>
-      <v-list-tile v-if="signedIn" @click="signOut()">
-        <v-list-tile-action>
-          <v-icon small>fas fa-sign-out-alt</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title v-text="$t('labels.signOut')" />
-        </v-list-tile-content>
-      </v-list-tile>
-    </no-ssr>
-  </v-list>
+<template lang="pug">
+  v-list
+    v-list-tile(v-for="(item, i) in items" :key="i" :to="item.to" router exact)
+      v-list-tile-action
+        v-icon(small)
+          | {{ item.icon }}
+      v-list-tile-content
+        v-list-tile-title(v-text="item.title")
+    no-ssr
+      v-list-tile(v-if="!signedIn" @click="signIn()")
+        v-list-tile-action
+          v-icon(small)
+            | fas fa-sign-in-alt
+        v-list-tile-content
+          v-list-tile-title(v-text="$t('labels.signIn')")
+      v-list-tile(v-if="signedIn" @click="signOut()")
+        v-list-tile-action
+          v-icon(small)
+            | fas fa-sign-out-alt
+        v-list-tile-content
+          v-list-tile-title(v-text="$t('labels.signOut')")
 </template>
 
 <script>
