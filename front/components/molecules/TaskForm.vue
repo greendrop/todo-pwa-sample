@@ -44,9 +44,6 @@ export default {
   watch: {
     task: {
       handler(val, oldVal) {
-        this.$log.debug(val)
-        this.$log.debug(oldVal)
-        this.$log.debug(_.isEqual(val, oldVal))
         if (!_.isEqual(val, oldVal)) {
           this.localTask = _.cloneDeep(val)
         }

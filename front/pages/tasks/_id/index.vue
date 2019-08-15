@@ -18,7 +18,7 @@
 import TaskDetail from '~/components/organisms/TaskDetail.vue'
 
 export default {
-  middleware: 'authenticated',
+  middleware: 'auth',
   components: {
     TaskDetail
   },

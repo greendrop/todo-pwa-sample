@@ -5,7 +5,11 @@
 <script>
 export default {
   mounted() {
-    this.$auth.loginWith(process.env.AUTH_STRATEGY_NAME)
+    if (this.$auth.loggedIn) {
+      this.$auth.redirect('home')
+    } else {
+      this.$auth.loginWith(process.env.AUTH_STRATEGY_NAME)
+    }
   }
 }
 </script>

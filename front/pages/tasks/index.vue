@@ -27,7 +27,7 @@
 import TaskList from '~/components/organisms/TaskList.vue'
 
 export default {
-  middleware: 'authenticated',
+  middleware: 'auth',
   components: {
     TaskList
   },

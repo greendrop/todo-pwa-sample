@@ -18,7 +18,7 @@
 import TaskEdit from '~/components/organisms/TaskEdit.vue'
 
 export default {
-  middleware: 'authenticated',
+  middleware: 'auth',
   components: {
     TaskEdit
   },

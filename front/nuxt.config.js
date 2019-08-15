@@ -99,12 +99,8 @@ export default {
       doorkeeper: {
         _scheme: '~/lib/auth-module/lib/schemes/oauth2-doorkeeper.js',
         _name: 'doorkeeper',
-        authorization_endpoint: `${
-          process.env.EXTERNAL_API_BASE_URL
-        }/auth/oauth/authorize`,
-        access_token_endpoint: `${
-          process.env.EXTERNAL_API_BASE_URL
-        }/auth/oauth/token`,
+        authorization_endpoint: `${process.env.EXTERNAL_API_BASE_URL}/auth/oauth/authorize`,
+        access_token_endpoint: `${process.env.EXTERNAL_API_BASE_URL}/auth/oauth/token`,
         userinfo_endpoint: `${process.env.EXTERNAL_API_BASE_URL}/api/v1/me`,
         scope: [],
         client_id: process.env.DOORKEEPER_CLIENT_ID,
