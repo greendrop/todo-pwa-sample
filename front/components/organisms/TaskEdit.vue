@@ -12,7 +12,7 @@
                   v-btn(color="primary" @click="submit")
                     v-icon.mr-1(small)
                       | fas fa-pencil-alt
-                    | {{ $t('common.update') }}
+                    | {{ $t('labels.update') }}
 </template>
 
 <script>
