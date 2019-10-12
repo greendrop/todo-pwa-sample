@@ -38,9 +38,7 @@ if [ ! -e /home/docker/.spring ]; then
 fi
 
 # Environments settings
-if [ -n "$ADDITIONAL_PATH" ]; then
-  export PATH=$ADDITIONAL_PATH:$PATH
-  unset ADDITIONAL_PATH
-fi
+export DOCKER_HOST_IP=`cat /etc/hosts | awk 'END{print $1}' | sed -r -e 's/[0-9]+$/1/g'`
 
+# Exec
 exec gosu $USER:$GROUP "$@"
