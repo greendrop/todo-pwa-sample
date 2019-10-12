@@ -14,6 +14,8 @@ getent passwd $USER_ID > /dev/null
 user_result=$?
 getent group $GROUP_ID > /dev/null
 group_result=$?
+grep docker-host.local /etc/hosts > /dev/null
+hosts_result=$?
 
 set -e
 
@@ -39,6 +41,11 @@ fi
 
 # Environments settings
 export DOCKER_HOST_IP=`cat /etc/hosts | awk 'END{print $1}' | sed -r -e 's/[0-9]+$/1/g'`
+
+# Hosts settings
+if [ $hosts_result -ne 0 ]; then
+  echo ${DOCKER_HOST_IP} docker-host.local >> /etc/hosts
+fi
 
 # Exec
 exec gosu $USER:$GROUP "$@"
