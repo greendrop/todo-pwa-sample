@@ -86,3 +86,29 @@ jobs:
           name: haml-lint
           command: bundle exec haml-lint app/views
           working_directory: ~/todo-pwa-sample/server
+
+      # front
+
+      # yarn install
+      - restore_cache:
+          key: todo-pwa-sample-front-node-{{ checksum "front/yarn.lock" }}-{{ .Environment.CACHE_VERSION }}
+      - run:
+          name: yarn install
+          command: yarn install --ignore-engines
+          working_directory: ~/todo-pwa-sample/front
+      - save_cache:
+          key: todo-pwa-sample-front-node-{{ checksum "front/yarn.lock" }}-{{ .Environment.CACHE_VERSION }}
+          paths:
+            - ./front/node_modules
+
+      # run yarn run lint
+      - run:
+          name: yarn run lint
+          command: yarn run lint
+          working_directory: ~/todo-pwa-sample/front
+
+      # run yarn run lint:pug-vue
+      - run:
+          name: yarn run lint:pug-vue
+          command: yarn run lint:pug-vue
+          working_directory: ~/todo-pwa-sample/front
