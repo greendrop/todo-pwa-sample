@@ -20,5 +20,8 @@ Rails.application.routes.draw do
   # Docs
   get '/docs/*path', to: 'docs#show' if Rails.env.development?
 
+  # Swagger
+  get 'swagger', to: 'swaggers#show' if Rails.env.development?
+
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 end
