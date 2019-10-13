@@ -1,0 +1,88 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.5.1-node-browsers
+        environment:
+          TZ: Asia/Tokyo
+          RAILS_ENV: test
+      - image: circleci/mysql:5.7.22
+        environment:
+          TZ: Asia/Tokyo
+          MYSQL_ROOT_PASSWORD: mysql
+          MYSQL_ROOT_HOST: "%"
+      - image: redis:4.0.9
+
+    working_directory: ~/todo-pwa-sample
+
+    parallelism: 1
+
+    steps:
+      - checkout
+
+      # server
+
+      # bundle install
+      - restore_cache:
+          key: todo-pwa-sample-server-gem-{{ checksum "server/Gemfile.lock" }}-{{ .Environment.CACHE_VERSION }}
+      - run:
+          name: bundle install
+          command: bundle install --jobs=4 --retry=3 --path vendor/bundle
+          working_directory: ~/todo-pwa-sample/server
+      - save_cache:
+          key: todo-pwa-sample-server-gem-{{ checksum "server/Gemfile.lock" }}-{{ .Environment.CACHE_VERSION }}
+          paths:
+            - ./server/vendor/bundle
+
+      # yarn install
+      - restore_cache:
+          key: todo-pwa-sample-server-node-{{ checksum "server/yarn.lock" }}-{{ .Environment.CACHE_VERSION }}
+      - run:
+          name: yarn install
+          command: yarn install --ignore-engines
+          working_directory: ~/todo-pwa-sample/server
+      - save_cache:
+          key: todo-pwa-sample-server-node-{{ checksum "server/yarn.lock" }}-{{ .Environment.CACHE_VERSION }}
+          paths:
+            - ./server/node_modules
+
+      # setup config
+      - run:
+          name: setup config/application.yml
+          command: cp config/application.yml.example config/application.yml
+          working_directory: ~/todo-pwa-sample/server
+      - run:
+          name: setup config/database.yml
+          command: cp config/database.yml.circleci config/database.yml
+          working_directory: ~/todo-pwa-sample/server
+
+      # wait for mysql
+      - run:
+          name: wait for mysql
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
+          working_directory: ~/todo-pwa-sample/server
+   
+      # setup database
+      - run:
+          name: setup database
+          command: bundle exec rake db:setup
+          working_directory: ~/todo-pwa-sample/server
+
+      # run rspec
+      - run:
+          name: rspec
+          command: bundle exec rspec
+          working_directory: ~/todo-pwa-sample/server
+
+      # run rubocop
+      - run:
+          name: rubocop
+          command: bundle exec rubocop
+          working_directory: ~/todo-pwa-sample/server
+
+      # run haml-lint
+      - run:
+          name: haml-lint
+          command: bundle exec haml-lint app/views
+          working_directory: ~/todo-pwa-sample/server
