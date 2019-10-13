@@ -38,6 +38,8 @@ services:
     hostname: server-web
     privileged: true
     entrypoint: ../docker/server/web/docker-entrypoint.sh
+    tty: true
+    stdin_open: true
   server-spring:
     <<: *server-app_base
     command: spring server
@@ -49,6 +51,8 @@ services:
       - MYSQL_ROOT_PASSWORD=mysql
       - SPRING_SOCKET=/home/docker/.spring/spring.sock
     hostname: server-spring
+    tty: false
+    stdin_open: false
   server-swagger-ui:
     image: swaggerapi/swagger-ui:v3.22.3
     ports:
