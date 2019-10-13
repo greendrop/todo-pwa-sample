@@ -1,43 +1,38 @@
 common: &base
   url:
     api:
-      host: localhost
-      port: 3000
-      protocol: 'http'
-      root: '/'
+      host: <%= ENV['API_URL_HOST'] %>
+      port: <%= ENV['API_URL_PORT'] %>
+      protocol: <%= ENV['API_URL_PROTOCOL'] %>
+      root: <%= ENV['API_URL_ROOT'] %>
     admin:
-      host: localhost
-      port: 3000
-      protocol: 'http'
-      root: '/admin'
+      host: <%= ENV['ADMIN_URL_HOST'] %>
+      port: <%= ENV['ADMIN_URL_PORT'] %>
+      protocol: <%= ENV['ADMIN_URL_PROTOCOL'] %>
+      root: <%= ENV['ADMIN_URL_ROOT'] %>
   email:
     from: from@localhost
   redis:
     default: &redis_default
-      url:    redis://redis:6379/0
+      url: <%= ENV['DEFAULT_REDIS_URL'] %>
       driver: hiredis
       namespace: todo-pwa-sample_default
     cache_store: &redis_cache_store
-      url:    redis://redis:6379/0
+      url: <%= ENV['CACHE_STORE_REDIS_URL'] %>
       driver: hiredis
       namespace: todo-pwa-sample_cache
     session_store: &redis_session_store
-      url:    redis://redis:6379/0
+      url: <%= ENV['SESSION_STORE_REDIS_URL'] %>
       driver: hiredis
       namespace: todo-pwa-sample_session
     sidekiq: &redis_sidekiq
-      url:    redis://redis:6379/0
+      url: <%= ENV['SIDEKIQ_REDIS_URL'] %>
       driver: hiredis
       namespace: todo-pwa-sample_sidekiq
   cache_store:
     expires_in: <%= 1.day %>
   session_store:
     expire_after: <%= 1.day %>
-  elasticsearch:
-    url: elasticsearch:9200
-    number_of_shards: 1
-    number_of_replicas: 0
-    log: true
 
 development:
   <<: *base

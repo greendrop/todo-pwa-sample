@@ -33,8 +33,7 @@ $ direnv allow
 $ docker-compose pull
 $ docker-compose build
 $ docker-compose run --rm server-web bash
-$ cp config/application.yml.example config/application.yml
-$ cp config/database.yml.example config/database.yml
+$ cp .env.example .env
 $ bundle install
 $ yarn install
 $ rake db:create
