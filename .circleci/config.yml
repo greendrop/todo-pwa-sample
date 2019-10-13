@@ -49,12 +49,8 @@ jobs:
 
       # setup config
       - run:
-          name: setup config/application.yml
-          command: cp config/application.yml.example config/application.yml
-          working_directory: ~/todo-pwa-sample/server
-      - run:
-          name: setup config/database.yml
-          command: cp config/database.yml.circleci config/database.yml
+          name: setup .env
+          command: cp .env.circleci .env
           working_directory: ~/todo-pwa-sample/server
 
       # wait for mysql
