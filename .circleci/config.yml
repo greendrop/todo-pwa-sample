@@ -77,6 +77,12 @@ jobs:
           command: bundle exec rubocop
           working_directory: ~/todo-pwa-sample/server
 
+      # run slim-lint
+      - run:
+          name: slim-lint
+          command: bundle exec slim-lint app/views
+          working_directory: ~/todo-pwa-sample/server
+
       # run haml-lint
       - run:
           name: haml-lint
