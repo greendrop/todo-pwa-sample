@@ -83,12 +83,6 @@ jobs:
           command: bundle exec slim-lint app/views
           working_directory: ~/todo-pwa-sample/server
 
-      # run haml-lint
-      - run:
-          name: haml-lint
-          command: bundle exec haml-lint app/views
-          working_directory: ~/todo-pwa-sample/server
-
       # front
 
       # yarn install

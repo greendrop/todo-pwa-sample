@@ -41,7 +41,6 @@ group :development, :test do
 
   gem 'brakeman', '~> 4.3.1', require: false
   gem 'factory_bot_rails', '~> 4.11.1'
-  gem 'haml_lint', '~> 0.28.0', require: false
   gem 'json_expressions', '~> 0.9.0', require: false
   gem 'rspec-its', '~> 1.2.0', require: false
   gem 'rspec-rails', '~> 3.8.1'
@@ -100,7 +99,6 @@ gem 'ransack', '~> 2.1.1'
 gem 'active_model_serializers', '~> 0.10.10'
 
 # ActionView
-gem 'hamlit', '~> 2.9.0'
 gem 'slim-rails', '~> 3.2.0'
 
 # Redis
