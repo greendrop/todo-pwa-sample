@@ -49,8 +49,13 @@ describe Api::V1::UsersController, type: :request do
       it '正常に取得できること' do
         expect(response.status).to eq(200)
 
-        body = task.as_json
-        expect(response.body).to match_json_expression body
+        body = JSON.parse(response.body)
+        expect(body['id']).to eq(task.id)
+        expect(body['title']).to eq(task.title)
+        expect(body['description']).to eq(task.description)
+        expect(body['done']).to eq(task.done)
+        expect(body['created_at']).to eq(task.created_at.strftime('%FT%T.%L%:z'))
+        expect(body['updated_at']).to eq(task.updated_at.strftime('%FT%T.%L%:z'))
       end
     end
 
@@ -78,8 +83,14 @@ describe Api::V1::UsersController, type: :request do
         it '登録できること' do
           expect(response.status).to eq 201
 
-          body = Task.last.as_json
-          expect(response.body).to match_json_expression body
+          body = JSON.parse(response.body)
+          task = Task.last
+          expect(body['id']).to eq(task.id)
+          expect(body['title']).to eq(task.title)
+          expect(body['description']).to eq(task.description)
+          expect(body['done']).to eq(task.done)
+          expect(body['created_at']).to eq(task.created_at.strftime('%FT%T.%L%:z'))
+          expect(body['updated_at']).to eq(task.updated_at.strftime('%FT%T.%L%:z'))
         end
       end
 
@@ -93,6 +104,9 @@ describe Api::V1::UsersController, type: :request do
 
         it '登録できないこと' do
           expect(response.status).to eq 400
+
+          body = JSON.parse(response.body)
+          expect(body['errors'].present?).to be_truthy
         end
       end
     end
