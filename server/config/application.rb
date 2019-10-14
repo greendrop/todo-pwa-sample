@@ -31,5 +31,9 @@ module TodoPwaSample
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    config.time_zone = 'Tokyo'
+    config.active_record.default_timezone = :local
+    config.action_view.field_error_proc = proc { |html_tag, _instance| html_tag }
   end
 end

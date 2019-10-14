@@ -23,15 +23,16 @@ module Api
       end
 
       def show
-        render json: @task.as_json
+        render json: @task, serializer: TaskSerializer
       end
 
       def create
         @task = Task.new(task_params.merge(user_id: current_resource_owner.id))
         if @task.save
-          render json: @task.as_json, status: 201
+          render json: @task, serializer: Api::TaskSerializer, status: 201
         else
-          render json: @task.as_json.merge(errors: validate_errors(@task)), status: 400
+          serializer = Api::TaskSerializer.new(@task, with_errors: true)
+          render json: serializer.serializable_hash, status: 400
         end
       end
 

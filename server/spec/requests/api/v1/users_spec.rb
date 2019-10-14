@@ -16,8 +16,12 @@ describe Api::V1::UsersController, type: :request do
 
       it '正常に取得できること' do
         expect(response.status).to eq(200)
-        body = user.as_json
-        expect(response.body).to match_json_expression body
+
+        body = JSON.parse(response.body)
+        expect(body['id']).to eq(user.id)
+        expect(body['email']).to eq(user.email)
+        expect(body['created_at']).to eq(user.created_at.strftime('%FT%T.%L%:z'))
+        expect(body['updated_at']).to eq(user.updated_at.strftime('%FT%T.%L%:z'))
       end
     end
 
