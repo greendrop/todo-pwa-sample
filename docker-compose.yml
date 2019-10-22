@@ -19,11 +19,11 @@ services:
     hostname: redis
   server-web: &server-app_base
     build: ./docker/server/web
-    command: bundle exec rails s -b 0.0.0.0
+    command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -b 0.0.0.0"
     ports:
       - '3000:3000'
     environment:
-      - PATH=/app/bin:/app/node_modules/.bin:/usr/local/bundle/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      - PATH=/app/server/bin:/app/node_modules/.bin:/usr/local/bundle/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       - USER_ID=${USER_ID}
       - GROUP_ID=${GROUP_ID}
       - MYSQL_ROOT_PASSWORD=mysql
@@ -51,6 +51,21 @@ services:
       - MYSQL_ROOT_PASSWORD=mysql
       - SPRING_SOCKET=/home/docker/.spring/spring.sock
     hostname: server-spring
+    tty: false
+    stdin_open: false
+  server-webpack:
+    <<: *server-app_base
+    command: webpack-dev-server
+    ports:
+      - '3035:3035'
+    ports: []
+    environment:
+      - PATH=/app/server/bin:/app/node_modules/.bin:/usr/local/bundle/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      - USER_ID=${USER_ID}
+      - GROUP_ID=${GROUP_ID}
+      - MYSQL_ROOT_PASSWORD=mysql
+      - "WEBPACKER_DEV_SERVER_HOST=0.0.0.0"
+    hostname: webpack
     tty: false
     stdin_open: false
   front:

@@ -5,7 +5,14 @@ require_relative 'routes_api'
 Rails.application.routes.draw do
   # Auth
   scope :auth do
-    devise_for :users
+    devise_for :users,
+               controllers: {
+                 registrations: 'auth/users/registrations',
+                 passwords: 'auth/users/passwords',
+                 sessions: 'auth/users/sessions',
+                 unlocks: 'auth/users/unlocks'
+               }
+
     use_doorkeeper
   end
 
