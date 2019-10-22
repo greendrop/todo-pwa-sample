@@ -17,7 +17,7 @@ RUN set -ex \
   && apt-get install -y --no-install-recommends \
     locales task-japanese gosu sudo git vim less zsh \
     build-essential patch ruby-dev zlib1g-dev liblzma-dev \
-    default-libmysqlclient-dev \
+    default-mysql-client default-libmysqlclient-dev \
     graphviz \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
