@@ -4,7 +4,7 @@ RUN set -ex \
   && apt-get update \
   && apt-get upgrade -y \
   && apt-get install -y --no-install-recommends \
-    locales task-japanese gosu sudo git vim less zsh \
+    iputils-ping locales task-japanese gosu sudo git vim less zsh \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
   && echo 'ja_JP.UTF-8 UTF-8' > /etc/locale.gen \
