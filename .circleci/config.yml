@@ -62,13 +62,13 @@ jobs:
       # setup database
       - run:
           name: setup database
-          command: bundle exec rake db:setup
+          command: bundle exec rails db:setup
           working_directory: ~/todo-pwa-sample/server
 
       # run rspec
       - run:
           name: rspec
-          command: bundle exec rspec
+          command: bundle exec rails spec
           working_directory: ~/todo-pwa-sample/server
 
       # run rubocop
