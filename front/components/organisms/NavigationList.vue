@@ -6,7 +6,7 @@
           | {{ item.icon }}
       v-list-tile-content
         v-list-tile-title(v-text="item.title")
-    no-ssr
+    client-only
       v-list-tile(v-if="!signedIn" @click="signIn()")
         v-list-tile-action
           v-icon(small)
