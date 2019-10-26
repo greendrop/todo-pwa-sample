@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'routes_api'
+require_relative 'routes/api'
 
 Rails.application.routes.draw do
   # Auth
