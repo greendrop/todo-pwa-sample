@@ -13,7 +13,7 @@ def get_schema_info(klass, index)
     if klass.table_name.size <= 31
       klass.table_name
     else
-      "#{klass.table_name[0..27]}#{format('%03d', index)}"
+      "#{klass.table_name[0..27]}#{index.to_s.rjust(3, '0')}"
     end
   table.columns = []
   table.indexes = []
