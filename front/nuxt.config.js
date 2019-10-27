@@ -120,6 +120,7 @@ export default {
   /*
    ** Build configuration
    */
+  buildModules: ['@nuxt/typescript-build'],
   build: {
     transpile: ['vuetify/lib'],
     plugins: [new VuetifyLoaderPlugin()],
