@@ -57,11 +57,7 @@ export default {
     submit() {
       this.$validator.validateAll().then(async result => {
         if (result) {
-          const accessToken = this.$auth.getToken(
-            process.env.AUTH_STRATEGY_NAME
-          )
           await this.$store.dispatch('tasks/updateTask', {
-            accessToken: accessToken,
             id: this.task.id,
             task: this.task
           })

@@ -65,9 +65,7 @@ export default {
     },
     async deleteTask(task) {
       if (confirm(this.$t('messages.destroyConfirm'))) {
-        const accessToken = this.$auth.getToken(process.env.AUTH_STRATEGY_NAME)
         await this.$store.dispatch('tasks/deleteTask', {
-          accessToken: accessToken,
           id: task.id
         })
         if (this.$store.getters['tasks/deleted']) {

@@ -1,6 +1,4 @@
-import qs from 'qs'
-import apiUrl from '~/lib/api-url'
-import changeCaseObject from '~/lib/change-case-object'
+import TaskRepository from '~/repositories/task-repository'
 
 export const state = () => ({
   tasks: [],
@@ -19,113 +17,80 @@ export const state = () => ({
 })
 
 export const actions = {
-  async getTasks({ commit }, { accessToken, params = {} }) {
-    const url = `${apiUrl.getApiBaseUrl()}/api/v1/tasks`
-    await this.$axios
-      .get(url, {
-        headers: { Authorization: accessToken },
-        params: changeCaseObject.snakeCase(params),
-        paramsSerializer: function(params) {
-          return qs.stringify(params, { arrayFormat: 'brackets' })
-        }
-      })
-      .then(response => {
-        const tasks = changeCaseObject.camelCase(response.data)
-        const tasksMeta = {
-          totalCount: Number(response.headers['total-count']),
-          perPage: Number(params.perPage) || 25,
-          currentPage: Number(params.page) || 1
-        }
-        commit('setTasks', tasks)
-        commit('setTasksMeta', tasksMeta)
-        commit('setGot', true)
-        commit('setErrorStatus', null)
-        commit('setErrorData', null)
-      })
-      .catch(error => {
-        const tasks = []
-        const tasksMeta = {
-          totalCount: 0,
-          perPage: 0,
-          currentPage: 0
-        }
-        commit('setTasks', tasks)
-        commit('setTasksMeta', tasksMeta)
-        commit('setGot', false)
-        commit('setErrorStatus', error.response.status)
-        commit('setErrorData', error.response.data)
-      })
-  },
-  async getTaskById({ commit }, { accessToken, id }) {
-    const url = `${apiUrl.getApiBaseUrl()}/api/v1/tasks/${id}`
-    await this.$axios
-      .get(url, { headers: { Authorization: accessToken } })
-      .then(response => {
-        const task = changeCaseObject.camelCase(response.data)
-        commit('setTask', task)
-        commit('setGot', true)
-        commit('setErrorStatus', null)
-        commit('setErrorData', null)
-      })
-      .catch(error => {
-        commit('setTask', [])
-        commit('setGot', false)
-        commit('setErrorStatus', error.response.status)
-        commit('setErrorData', error.response.data)
-      })
-  },
-  async createTask({ commit }, { accessToken, task }) {
-    const url = `${apiUrl.getApiBaseUrl()}/api/v1/tasks`
-    const params = changeCaseObject.snakeCase({ ...task })
-    await this.$axios
-      .post(url, params, { headers: { Authorization: accessToken } })
-      .then(response => {
-        const task = changeCaseObject.camelCase(response.data)
-        commit('setTask', task)
-        commit('setCreated', true)
-        commit('setErrorStatus', null)
-        commit('setErrorData', null)
-      })
-      .catch(error => {
-        commit('setCompleted', false)
-        commit('setErrorStatus', error.response.errorStatus)
-        commit('setErrorData', error.response.errorData)
-      })
-  },
-  async updateTask({ commit }, { accessToken, id, task }) {
-    const url = `${apiUrl.getApiBaseUrl()}/api/v1/tasks/${id}`
-    const params = changeCaseObject.snakeCase({
-      title: task.title,
-      description: task.description,
-      done: task.done
+  async getTasks({ commit }, { params = {} }) {
+    const response = await TaskRepository.getList(params).catch(error => {
+      const tasks = []
+      const tasksMeta = {
+        totalCount: 0,
+        perPage: 0,
+        currentPage: 0
+      }
+      commit('setTasks', tasks)
+      commit('setTasksMeta', tasksMeta)
+      commit('setGot', false)
+      commit('setErrorStatus', error.response.status)
+      commit('setErrorData', error.response.data)
     })
-    await this.$axios
-      .put(url, params, { headers: { Authorization: accessToken } })
-      .then(() => {
-        commit('setUpdated', true)
-        commit('setErrorStatus', null)
-        commit('setErrorData', null)
-      })
-      .catch(error => {
-        commit('setUpdated', false)
-        commit('setErrorStatus', error.response.errorStatus)
-        commit('setErrorData', error.response.errorData)
-      })
+
+    const tasks = response.data
+    const tasksMeta = {
+      totalCount: Number(response.headers.totalCount),
+      perPage: Number(params.perPage) || 25,
+      currentPage: Number(params.page) || 1
+    }
+    commit('setTasks', tasks)
+    commit('setTasksMeta', tasksMeta)
+    commit('setGot', true)
+    commit('setErrorStatus', null)
+    commit('setErrorData', null)
+  },
+  async getTaskById({ commit }, { id }) {
+    const response = await TaskRepository.get(id).catch(error => {
+      commit('setTask', null)
+      commit('setGot', false)
+      commit('setErrorStatus', error.response.errorStatus)
+      commit('setErrorData', error.response.errorData)
+    })
+
+    const task = response.data
+    commit('setTask', task)
+    commit('setGot', true)
+    commit('setErrorStatus', null)
+    commit('setErrorData', null)
+  },
+  async createTask({ commit }, { task }) {
+    const response = await TaskRepository.create(task).catch(error => {
+      commit('setCompleted', false)
+      commit('setErrorStatus', error.response.errorStatus)
+      commit('setErrorData', error.response.errorData)
+    })
+
+    commit('setTask', response.data)
+    commit('setCreated', true)
+    commit('setErrorStatus', null)
+    commit('setErrorData', null)
+  },
+  async updateTask({ commit }, { id, task }) {
+    await TaskRepository.update(id, task).catch(error => {
+      commit('setUpdated', false)
+      commit('setErrorStatus', error.response.errorStatus)
+      commit('setErrorData', error.response.errorData)
+    })
+
+    commit('setUpdated', true)
+    commit('setErrorStatus', null)
+    commit('setErrorData', null)
   },
   async deleteTask({ commit }, { accessToken, id }) {
-    const url = `${apiUrl.getApiBaseUrl()}/api/v1/tasks/${id}`
-    await this.$axios
-      .delete(url, { headers: { Authorization: accessToken } })
-      .then(() => {
-        commit('setDeleted', true)
-        commit('setErrorStatus', null)
-        commit('setErrorData', null)
-      })
-      .catch(error => {
-        commit('setDeleted', false)
-        commit('setErrorStatus', error.response.errorStatus)
-        commit('setErrorData', error.response.errorData)
-      })
+    await TaskRepository.delete(id).catch(error => {
+      commit('setDeleted', false)
+      commit('setErrorStatus', error.response.errorStatus)
+      commit('setErrorData', error.response.errorData)
+    })
+
+    commit('setDeleted', true)
+    commit('setErrorStatus', null)
+    commit('setErrorData', null)
   }
 }
 
