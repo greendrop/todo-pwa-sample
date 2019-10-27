@@ -65,7 +65,6 @@ export default {
     async getTasks() {
       this.taskLoading = true
       const { sortBy, descending, page, rowsPerPage } = this.pagination
-      const accessToken = this.$auth.getToken(process.env.AUTH_STRATEGY_NAME)
       const params = { page: page, perPage: rowsPerPage }
       if (sortBy) {
         if (!params.q) {
@@ -74,7 +73,6 @@ export default {
         params.q.s = `${sortBy} ${descending ? 'desc' : 'asc'}`
       }
       await this.$store.dispatch('tasks/getTasks', {
-        accessToken: accessToken,
         params: params
       })
 
@@ -97,9 +95,7 @@ export default {
     },
     async deleteTask(task) {
       if (confirm(this.$t('messages.destroyConfirm'))) {
-        const accessToken = this.$auth.getToken(process.env.AUTH_STRATEGY_NAME)
         await this.$store.dispatch('tasks/deleteTask', {
-          accessToken: accessToken,
           id: task.id
         })
         if (this.$store.getters['tasks/deleted']) {
