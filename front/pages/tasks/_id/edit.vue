@@ -71,7 +71,7 @@ export default {
   async asyncData(context) {
     const accessToken = context.app.$auth.getToken('doorkeeper')
     await context.store.dispatch('tasks/getTaskById', {
-      accessToken: accessToken,
+      accessToken,
       id: context.route.params.id
     })
     const data = {

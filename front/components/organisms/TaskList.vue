@@ -65,7 +65,7 @@ export default {
     async getTasks() {
       this.taskLoading = true
       const { sortBy, descending, page, rowsPerPage } = this.pagination
-      const params = { page: page, perPage: rowsPerPage }
+      const params = { page, perPage: rowsPerPage }
       if (sortBy) {
         if (!params.q) {
           params.q = {}
@@ -73,7 +73,7 @@ export default {
         params.q.s = `${sortBy} ${descending ? 'desc' : 'asc'}`
       }
       await this.$store.dispatch('tasks/getTasks', {
-        params: params
+        params
       })
 
       if (!this.$store.getters['tasks/got']) {

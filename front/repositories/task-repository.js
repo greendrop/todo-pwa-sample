@@ -5,7 +5,7 @@ const resource = '/api/v1/tasks'
 export default {
   getList(params) {
     const url = resource
-    return Repository.get(url, { params: params })
+    return Repository.get(url, { params })
   },
   get(id) {
     const url = `${resource}/${id}`

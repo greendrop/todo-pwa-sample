@@ -61,7 +61,7 @@ export default {
       process.env.AUTH_STRATEGY_NAME
     )
     await context.store.dispatch('tasks/getTaskById', {
-      accessToken: accessToken,
+      accessToken,
       id: context.route.params.id
     })
     const data = {

@@ -50,7 +50,7 @@ export default {
       }
     },
     localTask: {
-      handler(val, oldVal) {
+      handler(val, _oldVal) {
         this.$emit('update:task', val)
       },
       deep: true

@@ -40,7 +40,7 @@ const createRepository = () => {
 
   const instance = axios.create({
     baseURL: baseUrl,
-    paramsSerializer: paramsSerializer,
+    paramsSerializer,
     transformRequest: [convertRequest, ...axios.defaults.transformRequest],
     transformResponse: [...axios.defaults.transformResponse, convertResponse]
   })

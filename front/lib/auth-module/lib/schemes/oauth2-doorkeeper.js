@@ -126,7 +126,7 @@ export default class Oauth2Scheme {
     this.$auth.setUser(user)
   }
 
-  async _handleCallback(uri) {
+  async _handleCallback(_uri) {
     // Handle callback only for specified route
     if (
       this.$auth.options.redirect &&

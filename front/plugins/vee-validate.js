@@ -7,7 +7,7 @@ Vue.use(VeeValidate)
 export default function({ app }) {
   Validator.localize('ja', ja)
   Validator.localize(app.i18n.loadedLanguages[0])
-  app.i18n.beforeLanguageSwitch = (oldLocale, newLocale) => {
+  app.i18n.beforeLanguageSwitch = (_oldLocale, newLocale) => {
     Validator.localize(newLocale)
   }
 }

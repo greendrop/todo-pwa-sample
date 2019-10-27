@@ -81,7 +81,7 @@ export const actions = {
     commit('setErrorStatus', null)
     commit('setErrorData', null)
   },
-  async deleteTask({ commit }, { accessToken, id }) {
+  async deleteTask({ commit }, { id }) {
     await TaskRepository.delete(id).catch(error => {
       commit('setDeleted', false)
       commit('setErrorStatus', error.response.errorStatus)
