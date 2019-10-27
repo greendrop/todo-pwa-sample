@@ -1,8 +1,11 @@
+import { Configuration } from '@nuxt/types'
+// @ts-ignore
 import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
+// @ts-ignore
 import pkg from './package'
 require('dotenv').config()
 
-export default {
+const config: Configuration = {
   mode: 'universal',
 
   /*
@@ -132,7 +135,7 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {
+    extend(config: any, ctx: any) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
@@ -155,3 +158,5 @@ export default {
     dev: true
   }
 }
+
+export default config
