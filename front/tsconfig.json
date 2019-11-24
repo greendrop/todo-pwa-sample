@@ -24,8 +24,12 @@
     },
     "types": [
       "@types/node",
-      "@nuxt/types"
-    ]
+      "@nuxt/types",
+      "@nuxtjs/toast",
+      "nuxt-i18n",
+      "vuetify"
+    ],
+    "experimentalDecorators": true
   },
   "exclude": [
     "node_modules"

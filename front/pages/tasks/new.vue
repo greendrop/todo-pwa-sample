@@ -11,44 +11,40 @@
           .headline
             = "{{ $t('labels.newModel', { model: $t('models.task') }) }}"
 
-    task-new
+    task-new-component
 </template>
 
-<script>
-import TaskNew from '~/components/organisms/TaskNew.vue'
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import TaskNewComponent from '~/components/organisms/TaskNewComponent.vue'
 
-export default {
-  middleware: 'auth',
-  components: {
-    TaskNew
-  },
-  computed: {
-    breadcrumbItems() {
-      return [
-        {
-          text: this.$i18n.t('labels.home'),
-          to: '/',
-          exact: true,
-          disabled: false
-        },
-        {
-          text: this.$i18n.t('labels.listModel', {
-            model: this.$i18n.t('models.task')
-          }),
-          to: '/tasks',
-          exact: true,
-          disabled: false
-        },
-        {
-          text: this.$i18n.t('labels.newModel', {
-            model: this.$i18n.t('models.task')
-          }),
-          to: '/tasks/new',
-          exact: true,
-          disabled: true
-        }
-      ]
-    }
+@Component({ components: { TaskNewComponent }, middleware: 'auth' })
+export default class New extends Vue {
+  get breadcrumbItems(): { [key: string]: any }[] {
+    return [
+      {
+        text: this.$i18n.t('labels.home'),
+        to: '/',
+        exact: true,
+        disabled: false
+      },
+      {
+        text: this.$i18n.t('labels.listModel', {
+          model: this.$i18n.t('models.task')
+        }),
+        to: '/tasks',
+        exact: true,
+        disabled: false
+      },
+      {
+        text: this.$i18n.t('labels.newModel', {
+          model: this.$i18n.t('models.task')
+        }),
+        to: '/tasks/new',
+        exact: true,
+        disabled: true
+      }
+    ]
   }
 }
 </script>

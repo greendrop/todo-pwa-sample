@@ -51,35 +51,35 @@
             | {{ task.updatedAt | datetime }}
 </template>
 
-<script>
-export default {
-  props: {
-    task: {
-      type: Object,
-      required: true
-    }
-  },
-  methods: {
-    editTask(task) {
-      this.$router.push(`/tasks/${task.id}/edit`)
-    },
-    async deleteTask(task) {
-      if (confirm(this.$t('messages.destroyConfirm'))) {
-        await this.$store.dispatch('tasks/deleteTask', {
-          id: task.id
-        })
-        if (this.$store.getters['tasks/deleted']) {
-          const message = this.$t('messages.destroyModel', {
-            model: this.$t('models.task')
-          })
-          this.$toast.success(message)
-          this.$router.push('/tasks')
-        } else {
-          const message = this.$t('messages.errorOccurred')
-          this.$toast.error(message)
-          this.$log.error(this.$store.getters['tasks/errorStatus'])
-          this.$log.error(this.$store.getters['tasks/errorData'])
-        }
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import { ITask } from '~/models/task'
+import { tasksStore } from '~/store'
+
+@Component
+export default class TaskDetailComponent extends Vue {
+  @Prop({ type: Object, required: true })
+  task: ITask
+
+  editTask(task: ITask) {
+    this.$router.push(`/tasks/${task.id}/edit`)
+  }
+
+  async deleteTask(task: ITask) {
+    if (confirm(this.$t('messages.destroyConfirm').toString())) {
+      await tasksStore.deleteTask({ id: task.id })
+
+      if (tasksStore.deleted) {
+        const message = this.$t('messages.destroyModel', {
+          model: this.$t('models.task')
+        }).toString()
+        this.$toast.success(message)
+        this.$router.push('/tasks')
+      } else {
+        const message = this.$t('messages.errorOccurred').toString()
+        this.$toast.error(message)
+        this.$log.error(tasksStore.errorStatus)
+        this.$log.error(tasksStore.errorData)
       }
     }
   }

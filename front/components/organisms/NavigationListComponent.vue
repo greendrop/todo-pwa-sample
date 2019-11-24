@@ -21,38 +21,40 @@
           v-list-tile-title(v-text="$t('labels.signOut')")
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      items: [
-        {
-          icon: 'fas fa-home',
-          title: this.$i18n.t('labels.home'),
-          to: '/'
-        },
-        {
-          icon: 'fas fa-list',
-          title: this.$i18n.t('models.task'),
-          to: '/tasks'
-        }
-      ]
-    }
-  },
-  computed: {
-    signedIn() {
-      return this.$auth.loggedIn
-    }
-  },
-  methods: {
-    signIn() {
-      this.$auth.loginWith(process.env.AUTH_STRATEGY_NAME)
-    },
-    signOut() {
-      this.$auth.logout().then(() => {
-        this.$toast.success(this.$i18n.t('messages.signedOut'))
-      })
-    }
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+
+@Component
+export default class TaskFormComponent extends Vue {
+  items: { [key: string]: any }[] = []
+
+  created() {
+    this.items = [
+      {
+        icon: 'fas fa-home',
+        title: this.$i18n.t('labels.home').toString(),
+        to: '/'
+      },
+      {
+        icon: 'fas fa-list',
+        title: this.$i18n.t('models.task').toString(),
+        to: '/tasks'
+      }
+    ]
+  }
+
+  get signedIn() {
+    return (this as any).$auth.loggedIn
+  }
+
+  signIn() {
+    this.$auth.loginWith(process.env.AUTH_STRATEGY_NAME)
+  }
+
+  signOut() {
+    this.$auth.logout().then(() => {
+      this.$toast.success(this.$i18n.t('messages.signedOut').toString())
+    })
   }
 }
 </script>
