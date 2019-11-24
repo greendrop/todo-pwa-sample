@@ -7,7 +7,7 @@
       fixed
       app)
 
-      navigation-list
+      navigation-list-component
 
     v-toolbar(
       :clipped-left="clipped"
@@ -23,23 +23,18 @@
     v-footer(:fixed="fixed" app)
 </template>
 
-<script>
-import NavigationList from '~/components/organisms/NavigationList.vue'
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import NavigationListComponent from '../components/organisms/NavigationListComponent.vue'
 
-export default {
-  components: {
-    NavigationList
-  },
-  data() {
-    return {
-      clipped: true,
-      drawer: null,
-      fixed: false,
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Todo PWA Sample'
-    }
-  }
+@Component({ components: { NavigationListComponent } })
+export default class Default extends Vue {
+  clipped: boolean = true
+  drawer: boolean | null = null
+  fixed: boolean = false
+  miniVariant: boolean = false
+  right: boolean = true
+  rightDrawer: boolean = false
+  title: string = 'Todo PWA Sample'
 }
 </script>

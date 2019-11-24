@@ -20,36 +20,32 @@
                 | fas fa-plus
               | {{ $t('labels.new') }}
 
-        task-list
+        task-list-component
 </template>
 
-<script>
-import TaskList from '~/components/organisms/TaskList.vue'
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import TaskListComponent from '~/components/organisms/TaskListComponent.vue'
 
-export default {
-  middleware: 'auth',
-  components: {
-    TaskList
-  },
-  computed: {
-    breadcrumbItems() {
-      return [
-        {
-          text: this.$i18n.t('labels.home'),
-          to: '/',
-          exact: true,
-          disabled: false
-        },
-        {
-          text: this.$i18n.t('labels.listModel', {
-            model: this.$i18n.t('models.task')
-          }),
-          to: '/tasks',
-          exact: true,
-          disabled: true
-        }
-      ]
-    }
+@Component({ components: { TaskListComponent }, middleware: 'auth' })
+export default class Index extends Vue {
+  get breadcrumbItems(): { [key: string]: any }[] {
+    return [
+      {
+        text: this.$i18n.t('labels.home'),
+        to: '/',
+        exact: true,
+        disabled: false
+      },
+      {
+        text: this.$i18n.t('labels.listModel', {
+          model: this.$i18n.t('models.task')
+        }),
+        to: '/tasks',
+        exact: true,
+        disabled: true
+      }
+    ]
   }
 }
 </script>

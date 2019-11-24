@@ -11,63 +11,56 @@
           .headline
             | {{ $t('labels.showModel', { model: $t('models.task') }) }}
 
-    task-detail(:task="task")
+    task-detail-component(:task="task")
 </template>
 
-<script>
-import TaskDetail from '~/components/organisms/TaskDetail.vue'
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import { Context } from '@nuxt/types'
+import TaskDetailComponent from '~/components/organisms/TaskDetailComponent.vue'
+import { ITask, Task } from '~/models/task'
+import { tasksStore } from '~/store'
 
-export default {
+@Component({
+  components: { TaskDetailComponent },
   middleware: 'auth',
-  components: {
-    TaskDetail
-  },
-  data() {
-    return {
-      task: null
-    }
-  },
-  computed: {
-    breadcrumbItems() {
-      const id = this.$route.params.id
-      return [
-        {
-          text: this.$i18n.t('labels.home'),
-          to: '/',
-          exact: true,
-          disabled: false
-        },
-        {
-          text: this.$i18n.t('labels.listModel', {
-            model: this.$i18n.t('models.task')
-          }),
-          to: '/tasks',
-          exact: true,
-          disabled: false
-        },
-        {
-          text: this.$i18n.t('labels.showModel', {
-            model: this.$i18n.t('models.task')
-          }),
-          to: `/tasks/${id}`,
-          exact: true,
-          disabled: true
-        }
-      ]
-    }
-  },
-  async asyncData(context) {
-    const accessToken = context.app.$auth.getToken(
-      process.env.AUTH_STRATEGY_NAME
-    )
-    await context.store.dispatch('tasks/getTaskById', {
-      accessToken: accessToken,
-      id: context.route.params.id
-    })
+  async asyncData(context: Context) {
+    await tasksStore.getTaskById({ id: parseInt(context.route.params.id) })
     const data = {
-      task: context.store.getters['tasks/task']
+      task: tasksStore.task
     }
     return data
+  }
+})
+export default class Index extends Vue {
+  task: ITask = new Task()
+
+  get breadcrumbItems(): { [key: string]: any }[] {
+    const id = this.$route.params.id
+    return [
+      {
+        text: this.$i18n.t('labels.home'),
+        to: '/',
+        exact: true,
+        disabled: false
+      },
+      {
+        text: this.$i18n.t('labels.listModel', {
+          model: this.$i18n.t('models.task')
+        }),
+        to: '/tasks',
+        exact: true,
+        disabled: false
+      },
+      {
+        text: this.$i18n.t('labels.showModel', {
+          model: this.$i18n.t('models.task')
+        }),
+        to: `/tasks/${id}`,
+        exact: true,
+        disabled: true
+      }
+    ]
   }
 }
 </script>

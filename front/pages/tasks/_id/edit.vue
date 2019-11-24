@@ -11,73 +11,64 @@
           .headline
             | {{ $t('labels.editModel', { model: $t('models.task') }) }}
 
-    task-edit(:task.sync="task")
+    task-edit-component(:task.sync="task")
 </template>
 
-<script>
-import TaskEdit from '~/components/organisms/TaskEdit.vue'
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import { Context } from '@nuxt/types'
+import TaskEditComponent from '~/components/organisms/TaskEditComponent.vue'
+import { ITask, Task } from '~/models/task'
+import { tasksStore } from '~/store'
 
-export default {
+@Component({
+  components: { TaskEditComponent },
   middleware: 'auth',
-  components: {
-    TaskEdit
-  },
-  data() {
-    return {
-      task: {
-        title: '',
-        description: '',
-        done: false
-      }
-    }
-  },
-  computed: {
-    breadcrumbItems() {
-      const id = this.$route.params.id
-      return [
-        {
-          text: this.$i18n.t('labels.home'),
-          to: '/',
-          exact: true,
-          disabled: false
-        },
-        {
-          text: this.$i18n.t('labels.listModel', {
-            model: this.$i18n.t('models.task')
-          }),
-          to: '/tasks',
-          exact: true,
-          disabled: false
-        },
-        {
-          text: this.$i18n.t('labels.showModel', {
-            model: this.$i18n.t('models.task')
-          }),
-          to: `/tasks/${id}`,
-          exact: true,
-          disabled: false
-        },
-        {
-          text: this.$i18n.t('labels.editModel', {
-            model: this.$i18n.t('models.task')
-          }),
-          to: `/tasks/${id}/edit`,
-          exact: true,
-          disabled: true
-        }
-      ]
-    }
-  },
-  async asyncData(context) {
-    const accessToken = context.app.$auth.getToken('doorkeeper')
-    await context.store.dispatch('tasks/getTaskById', {
-      accessToken: accessToken,
-      id: context.route.params.id
-    })
+  async asyncData(context: Context) {
+    await tasksStore.getTaskById({ id: parseInt(context.route.params.id) })
     const data = {
-      task: { ...context.store.getters['tasks/task'] }
+      task: tasksStore.task
     }
     return data
+  }
+})
+export default class Edit extends Vue {
+  task: ITask = new Task()
+
+  get breadcrumbItems(): { [key: string]: any }[] {
+    const id = this.$route.params.id
+    return [
+      {
+        text: this.$i18n.t('labels.home'),
+        to: '/',
+        exact: true,
+        disabled: false
+      },
+      {
+        text: this.$i18n.t('labels.listModel', {
+          model: this.$i18n.t('models.task')
+        }),
+        to: '/tasks',
+        exact: true,
+        disabled: false
+      },
+      {
+        text: this.$i18n.t('labels.showModel', {
+          model: this.$i18n.t('models.task')
+        }),
+        to: `/tasks/${id}`,
+        exact: true,
+        disabled: false
+      },
+      {
+        text: this.$i18n.t('labels.editModel', {
+          model: this.$i18n.t('models.task')
+        }),
+        to: `/tasks/${id}/edit`,
+        exact: true,
+        disabled: true
+      }
+    ]
   }
 }
 </script>

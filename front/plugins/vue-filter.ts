@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import moment from 'moment'
 
-Vue.filter('datetime', function(value, format) {
+Vue.filter('datetime', function(value: any, format: string) {
   if (!value) return ''
 
   format = format || 'YYYY/MM/DD HH:mm'
   return moment(value).format(format)
 })
 
-Vue.filter('truncate', (value, length, omission) => {
+Vue.filter('truncate', (value: any, length: any, omission: string) => {
   length = length ? parseInt(length, 10) : 20
   omission = omission ? omission.toString() : '...'
 
